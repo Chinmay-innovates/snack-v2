@@ -1,3 +1,4 @@
+import { Lightbulb } from 'lucide-react';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -32,6 +33,8 @@ const config: Config = {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
+          dark: '#451C49',
+          light: '#311834',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
