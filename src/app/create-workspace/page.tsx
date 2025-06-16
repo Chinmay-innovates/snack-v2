@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { toast } from 'sonner';
@@ -7,9 +8,11 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Typography } from '@/components/ui/typography';
-import { useRouter } from 'next/navigation';
-import { useCreateWorkspaceValues } from '@/hooks/use-workspace-values';
+import { ImageUpload } from '@/components/image-upload';
+
+import { useCreateWorkspaceValues } from '@/hooks/create-workspace-values';
 import { slugify } from '@/lib/utils';
+import { MdWorkspacePremium } from 'react-icons/md';
 
 const CreateWorkspace = () => {
   const { currStep } = useCreateWorkspaceValues();
@@ -94,7 +97,22 @@ const Step2 = () => {
       return toast.error("Couldn't create workspace. Please try again.");
     }
 
-    toast.success('Workspace created successfully');
+    toast('Workspace ready', {
+      description: 'All set up and synced.',
+      icon: '✨',
+      duration: 5000,
+      style: {
+        background: '#1a1a1a',
+        color: '#ffffff',
+      },
+      action: {
+        label: 'Go',
+        onClick: () => {
+          router.push(`/workspace/${name}`);
+        },
+      },
+    });
+
     router.push('/');
   };
 
@@ -113,7 +131,7 @@ const Step2 = () => {
         />
 
         <fieldset disabled={isSubmitting} className="mt-6 flex flex-col items-center space-y-9">
-          {/* <ImageUpload /> */}
+          <ImageUpload />
           <div className="space-x-5">
             <Button
               onClick={() => {

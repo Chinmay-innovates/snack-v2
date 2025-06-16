@@ -23,6 +23,7 @@
     "@radix-ui/react-tooltip": "^1.2.7",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.50.0",
+    "@uploadthing/react": "^6.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.515.0",
@@ -36,6 +37,7 @@
     "supabase": ">=1.8.1",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
+    "uploadthing": "^6.10.0",
     "uuid": "^11.1.0",
     "zod": "^3.25.64",
     "zustand": "^5.0.5"
