@@ -8,7 +8,7 @@ const getUserWorkspaceData = async (workspaceIds: Array<string>) => {
   return [data, error];
 };
 
-const getcurrentWorkspaceData = async (workspaceId: string) => {
+const getCurrentWorkspaceData = async (workspaceId: string) => {
   const supabase = await supabaseServerClient();
   const { data, error } = await supabase
     .from('workspaces')
@@ -18,4 +18,4 @@ const getcurrentWorkspaceData = async (workspaceId: string) => {
   return [data, error];
 };
 
-export { getUserWorkspaceData, getcurrentWorkspaceData };
+export { getUserWorkspaceData, getCurrentWorkspaceData };

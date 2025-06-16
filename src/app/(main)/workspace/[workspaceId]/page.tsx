@@ -1,5 +1,7 @@
+import { Sidebar } from '@/components/sidebar';
 import { getUserData } from '@/server/get-user-data';
-import { getcurrentWorkspaceData, getUserWorkspaceData } from '@/server/workspaces';
+import { getCurrentWorkspaceData, getUserWorkspaceData } from '@/server/workspaces';
+import { Workspace as WorkspaceType } from '@/types/app';
 import { redirect } from 'next/navigation';
 
 const Workspace = async ({ params }: { params: { workspaceId: string } }) => {
@@ -7,17 +9,23 @@ const Workspace = async ({ params }: { params: { workspaceId: string } }) => {
 
   if (!user) return redirect('/auth');
 
-  const [userWorkspaceData, userWorkspaceError] = await getUserWorkspaceData(user.workspaces!);
+  const [userWorkspacesData, userWorkspaceError] = await getUserWorkspaceData(user.workspaces!);
 
-  const [currentWorkspaceData, currentWorkspaceError] = await getcurrentWorkspaceData(
+  const [currentWorkspaceData, currentWorkspaceError] = await getCurrentWorkspaceData(
     params.workspaceId,
   );
 
   return (
-    <div className="text-black p-2">
-      Workspace&nbsp;
-      <strong>{params.workspaceId}</strong>
-    </div>
+    <>
+      <div className="hidden md:block">
+        <Sidebar
+          currentWorkspaceData={currentWorkspaceData}
+          userData={user}
+          userWorkspacesData={userWorkspacesData as WorkspaceType[]}
+        />
+      </div>
+      <div className="md:hidden block min-h-screen">Mobile</div>
+    </>
   );
 };
 
