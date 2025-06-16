@@ -2,6 +2,12 @@
 const nextConfig = {
   webpack: (config) => {
     config.cache = false;
+    config.ignoreWarnings = [
+      {
+        module: /@supabase\/realtime-js/,
+        message: /Critical dependency: the request of a dependency is an expression/,
+      },
+    ];
     return config;
   },
   images: {
