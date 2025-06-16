@@ -16,6 +16,8 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Provider } from '@supabase/supabase-js';
+import { registerWithEmail } from '@/server/register-with-email';
 
 const AuthPage = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -50,8 +52,28 @@ const AuthPage = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    setIsAuthenticating(true);
+    const response = await registerWithEmail({ email: values.email });
+    const { data, error } = JSON.parse(response);
+
+    if (error) {
+      console.warn(error);
+      return alert(error.message);
+    }
+
+    setIsAuthenticating(false);
   }
+
+  const socialAuth = async (provider: Provider) => {
+    setIsAuthenticating(true);
+    await supabaseBrowserClient().auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    setIsAuthenticating(false);
+  };
 
   if (!isMounted) return null;
 
@@ -76,7 +98,7 @@ const AuthPage = () => {
             disabled={isAuthenticating}
             variant="outline"
             className="py-6 border-2 flex space-x-3 bg-[#4285F4] text-white [&_svg]:size-6"
-            // onClick={() => socialAuth('google')}
+            onClick={() => socialAuth('google')}
           >
             <FcGoogle size={30} />
             <Typography className="text-xl" text="Sign in with Google" variant="p" />
@@ -85,7 +107,7 @@ const AuthPage = () => {
             disabled={isAuthenticating}
             variant="outline"
             className="py-6 border-2 flex space-x-3 bg-black text-white [&_svg]:size-6"
-            // onClick={() => socialAuth('github')}
+            onClick={() => socialAuth('github')}
           >
             <RxGithubLogo size={30} />
             <Typography className="text-xl" text="Sign in with GitHub" variant="p" />
