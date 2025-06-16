@@ -13,6 +13,7 @@ import { ImageUpload } from '@/components/image-upload';
 import { useCreateWorkspaceValues } from '@/hooks/create-workspace-values';
 import { slugify } from '@/lib/utils';
 import { MdWorkspacePremium } from 'react-icons/md';
+import { createWorkspace } from '@/server/create-workspace';
 
 const CreateWorkspace = () => {
   const { currStep } = useCreateWorkspaceValues();
@@ -92,10 +93,10 @@ const Step2 = () => {
 
     const error = await createWorkspace({ imageUrl, name, slug, invite_code });
     setIsSubmitting(false);
-    if (error?.error) {
-      console.log(error);
-      return toast.error("Couldn't create workspace. Please try again.");
-    }
+    // if (error?.error) {
+    //   console.log(error);
+    //   return toast.error("Couldn't create workspace. Please try again.");
+    // }
 
     toast('Workspace ready', {
       description: 'All set up and synced.',
