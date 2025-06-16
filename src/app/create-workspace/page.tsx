@@ -93,10 +93,10 @@ const Step2 = () => {
 
     const error = await createWorkspace({ imageUrl, name, slug, invite_code });
     setIsSubmitting(false);
-    // if (error?.error) {
-    //   console.log(error);
-    //   return toast.error("Couldn't create workspace. Please try again.");
-    // }
+    if (error?.error) {
+      console.log(error);
+      return toast.error("Couldn't create workspace. Please try again.");
+    }
 
     toast('Workspace ready', {
       description: 'All set up and synced.',
@@ -109,7 +109,7 @@ const Step2 = () => {
       action: {
         label: 'Go',
         onClick: () => {
-          router.push(`/workspace/${name}`);
+          router.push(`/`);
         },
       },
     });
