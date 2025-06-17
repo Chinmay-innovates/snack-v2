@@ -57,7 +57,7 @@ const Channel = async ({
 
       <div className="m-4">
         <TextEditor
-          apiUrl={''}
+          apiUrl={'/api/web-socket/messages'}
           type={'Channel'}
           workspaceData={currentWorkspaceData}
           userData={user}

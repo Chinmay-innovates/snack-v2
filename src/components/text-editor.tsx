@@ -4,8 +4,9 @@ import { FiPlus } from 'react-icons/fi';
 import { useState } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import PlaceHolder from '@tiptap/extension-placeholder';
 import { Send } from 'lucide-react';
+import PlaceHolder from '@tiptap/extension-placeholder';
+import axios from 'axios';
 
 import { Button } from '@/components/ui/button';
 import { Channel, User, Workspace } from '@/types/app';
@@ -39,7 +40,7 @@ export const TextEditor = ({
     extensions: [
       StarterKit,
       PlaceHolder.configure({
-        placeholder: `Message #${channel?.name ?? 'USERNAME'}`,
+        placeholder: `Message #${type === 'Channel' ? channel?.name : 'username'}`,
       }),
     ],
     autofocus: true,
@@ -66,7 +67,7 @@ export const TextEditor = ({
         endpoint += `?recipientId=${recipientId}&workspaceId=${workspaceData.id}`;
       }
 
-      //   await axios.post(endpoint, payload);
+      await axios.post(endpoint, payload);
 
       setContent('');
       editor?.commands.setContent('');
