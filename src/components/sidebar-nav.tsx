@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Copy } from 'lucide-react';
 import { toast } from 'sonner';
-import { useColorPrefrences } from '@/providers/create-context';
+import { useColorPrefrences } from '@/providers/color-preferences';
 import { CreateWorkspace } from './create-workspace';
 import { ProgressBar } from './progress-bar';
 

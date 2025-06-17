@@ -1,21 +1,22 @@
 'use client';
 
 import { FC } from 'react';
+import Image from 'next/image';
 import { FiPlus } from 'react-icons/fi';
+import { FaRegCalendarCheck } from 'react-icons/fa';
 import { GoDot, GoDotFill } from 'react-icons/go';
 import { GiNightSleep } from 'react-icons/gi';
 import { FaPencil } from 'react-icons/fa6';
 import { IoDiamondOutline } from 'react-icons/io5';
 
 import { User, Workspace } from '@/types/app';
+import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import Image from 'next/image';
-import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Typography } from '@/components/ui/typography';
-import { FaRegCalendarCheck } from 'react-icons/fa';
-import { useColorPrefrences } from '@/providers/create-context';
+import { useColorPrefrences } from '@/providers/color-preferences';
+import { PreferencesDialog } from './preferences-dialog';
 import { SidebarNav } from './sidebar-nav';
 
 type SidebarProps = {
@@ -152,7 +153,7 @@ export const Sidebar: FC<SidebarProps> = ({
                           text={'Profile'}
                           className="hover:text-white hover:bg-blue-700 px-2 py-1 rounded cursor-pointer"
                         />
-                        {/* <PreferencesDialog /> */}
+                        <PreferencesDialog />
                         <hr className="bg-gray-400" />
                         <div className="flex gap-2 items-center hover:text-white hover:bg-blue-700 px-2 py-1 rounded cursor-pointer">
                           <IoDiamondOutline className="text-amber-400" />
