@@ -2,7 +2,6 @@ import { Dispatch, FC, SetStateAction, useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -19,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { createChannel } from '@/server/channels';
+import { showToast } from '@/lib/toast';
 export const CreateChannelDialog: FC<{
   dialogOpen: boolean;
   setDialogOpen: Dispatch<SetStateAction<boolean>>;
@@ -49,24 +49,25 @@ export const CreateChannelDialog: FC<{
     try {
       setIsSubmitting(true);
 
-      await createChannel({
-        name,
-        userId,
-        workspaceId,
-      });
+      const res = await createChannel({ name, userId, workspaceId });
+
+      if (res && 'error' in res) {
+        setIsSubmitting(false);
+        return showToast({
+          message: res.error ?? `Channel #${name} creation failed`,
+          description: 'Something went wrong. Give it another shot.',
+          type: 'error',
+        });
+      }
 
       router.refresh();
       setIsSubmitting(false);
       setDialogOpen(false);
       form.reset();
-      toast(`Channel #${name} is Live`, {
+
+      showToast({
+        message: `Channel #${name} is Live`,
         description: 'Channel up and running smoothly.',
-        icon: '🎉',
-        duration: 5000,
-        style: {
-          background: '#1a1a1a',
-          color: '#ffffff',
-        },
       });
     } catch (error) {
       setIsSubmitting(false);

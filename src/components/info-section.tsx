@@ -71,18 +71,22 @@ export const InfoSection: FC<{
             </div>
             <CollapsibleContent>
               {userWorkspaceChannels.map((channel) => {
-                const activeChannel = currentChannelId === channel.id;
+                const isActive = currentChannelId === channel.id;
+                const hoverStyles =
+                  isActive && secondayBg ? 'hover:bg-[#f4f4f4] hover:text-[#1d1d1d]' : '';
+
                 return (
                   <Typography
                     key={channel.id}
                     variant="p"
                     text={`# ${channel.name}`}
+                    onClick={() => navigateToChannel(channel.id)}
                     className={cn(
                       'px-2 py-1 rounded-sm cursor-pointer',
                       secondayBg,
-                      activeChannel && secondayBg,
+                      isActive && 'bg-[#f4f4f4] text-[#1d1d1d]',
+                      hoverStyles,
                     )}
-                    onClick={() => navigateToChannel(channel.id)}
                   />
                 );
               })}

@@ -1,6 +1,5 @@
 import { InfoSection } from '@/components/info-section';
 import { Sidebar } from '@/components/sidebar';
-import { Typography } from '@/components/ui/typography';
 import { getUserData } from '@/server/get-user-data';
 import { getUserWorkspaceChannels } from '@/server/get-user-workspace-channels';
 import { getCurrentWorkspaceData, getUserWorkspaceData } from '@/server/workspaces';
@@ -35,13 +34,6 @@ const Workspace = async ({ params }: { params: { workspaceId: string } }) => {
           currentChannelId={undefined}
         />
         WORKSPACE SECTION
-        <Typography text="Workspace" variant="h1" />
-        <Typography text="Workspace" variant="h2" />
-        <Typography text="Workspace" variant="h3" />
-        <Typography text="Workspace" variant="h4" />
-        <Typography text="Workspace" variant="h5" />
-        <Typography text="Workspace" variant="h6" />
-        <Typography text="Workspace" variant="p" />
       </div>
       <div className="md:hidden block min-h-screen">Mobile</div>
     </>
