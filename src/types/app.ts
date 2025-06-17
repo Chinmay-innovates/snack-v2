@@ -14,3 +14,6 @@ export type SocketIOApiResponse = NextApiResponse & {
     };
   };
 };
+export type ParamKey = 'channelId' | 'recipientId';
+export type MessageType = 'Channel' | 'DirectMessage';
+export type MessageWithUser = Message & { user: User };

@@ -9,15 +9,20 @@ import PlaceHolder from '@tiptap/extension-placeholder';
 import axios from 'axios';
 
 import { Button } from '@/components/ui/button';
-import { Channel, User, Workspace } from '@/types/app';
-import { Dialog, DialogContent, DialogDescription, DialogHeader } from '@/components/ui/dialog';
-import { DialogTitle } from '@radix-ui/react-dialog';
+import { Channel, MessageType, User, Workspace } from '@/types/app';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { MenuBar } from './menu-bar';
 import { ChatFileUpload } from './chat-file-upload';
 
 type TextEditorProps = {
   apiUrl: string;
-  type: 'Channel' | 'DirectMessage';
+  type: MessageType;
   channel?: Channel;
   workspaceData: Workspace;
   userData: User;

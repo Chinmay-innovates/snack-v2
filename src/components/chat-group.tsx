@@ -1,20 +1,20 @@
 'use client';
 
-import { Typography } from '@/components/ui/typography';
 import { ChatHeader } from '@/components/chat-header';
 import { TextEditor } from '@/components/text-editor';
 import { InfoSection } from '@/components/info-section';
 import { Sidebar } from '@/components/sidebar';
-import { Channel, User, Workspace } from '@/types/app';
+import { Channel, MessageType, ParamKey, User, Workspace } from '@/types/app';
+import { ChatMessages } from './chat-messages';
 
 type Props = {
-  type: 'Channel' | 'DirectMessage';
+  type: MessageType;
   socketURL: string;
   apiURL: string;
   headerTitle: string;
   chatId: string;
   socketQuery: Record<string, string>;
-  paramKey: 'channelId' | 'recipientId';
+  paramKey: ParamKey;
   paramValue: string;
   user: User;
   currentWorkspaceData: Workspace;
@@ -56,7 +56,18 @@ export const ChatGroup = ({
         <div className="p-4 relative w-full overflow-hidden">
           <ChatHeader title={headerTitle} chatId={chatId} user={user} />
           <div className="mt-10">
-            <Typography text="Chat Content" variant="h4" />
+            <ChatMessages
+              user={user}
+              name={channel?.name ?? user.name}
+              workspace={currentWorkspaceData}
+              apiURL={apiURL}
+              socketURL={socketURL}
+              socketQuery={socketQuery}
+              paramKey={paramKey}
+              paramValue={paramValue}
+              chatId={chatId}
+              type={type}
+            />
           </div>
         </div>
       </div>
