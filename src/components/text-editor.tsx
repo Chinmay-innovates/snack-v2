@@ -13,6 +13,7 @@ import { Channel, User, Workspace } from '@/types/app';
 import { Dialog, DialogContent, DialogDescription, DialogHeader } from '@/components/ui/dialog';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { MenuBar } from './menu-bar';
+import { ChatFileUpload } from './chat-file-upload';
 
 type TextEditorProps = {
   apiUrl: string;
@@ -105,13 +106,13 @@ export const TextEditor = ({
             <DialogDescription>Upload a file to share with your team</DialogDescription>
           </DialogHeader>
 
-          {/* <ChatFileUpload
+          <ChatFileUpload
             userData={userData}
             workspaceData={workspaceData}
             channel={channel}
             recipientId={recipientId}
             toggleFileUploadModal={toggleFileUploadModal}
-          /> */}
+          />
         </DialogContent>
       </Dialog>
     </div>
