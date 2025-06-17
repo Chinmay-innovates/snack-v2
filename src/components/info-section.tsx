@@ -7,13 +7,15 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useColorPrefrences } from '@/providers/color-preferences';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { User, Workspace } from '@/types/app';
+import { Channel, User, Workspace } from '@/types/app';
 import { Typography } from './ui/typography';
 import { CreateChannelDialog } from './create-channel-dialog';
 export const InfoSection: FC<{
   userData: User;
   currentWorkspaceData: Workspace;
-}> = ({ userData, currentWorkspaceData }) => {
+  userWorkspaceChannels: Channel[];
+  currentChannelId: string | undefined;
+}> = ({ userData, currentWorkspaceData, userWorkspaceChannels, currentChannelId }) => {
   const { color } = useColorPrefrences();
   const [isChannelCollapsed, setIsChannelCollapsed] = useState(true);
   const [isDirectMessageCollapsed, setIsDirectMessageCollapsed] = useState(true);
@@ -68,7 +70,7 @@ export const InfoSection: FC<{
               </div>
             </div>
             <CollapsibleContent>
-              {/* {userWorkspaceChannels.map((channel) => {
+              {userWorkspaceChannels.map((channel) => {
                 const activeChannel = currentChannelId === channel.id;
                 return (
                   <Typography
@@ -83,7 +85,7 @@ export const InfoSection: FC<{
                     onClick={() => navigateToChannel(channel.id)}
                   />
                 );
-              })} */}
+              })}
             </CollapsibleContent>
           </Collapsible>
         </div>
