@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { createChannel } from '@/server/channels';
 export const CreateChannelDialog: FC<{
   dialogOpen: boolean;
   setDialogOpen: Dispatch<SetStateAction<boolean>>;
@@ -33,6 +34,7 @@ export const CreateChannelDialog: FC<{
       .nonempty({ message: 'Channel name is required' })
       .min(3, { message: 'Channel name too short. Must be at least 3 characters long' })
       .trim()
+      .toLowerCase()
       .transform((name) => name.replace(/\s+/g, '-')), // replace whitespace with hyphens
   });
 
@@ -47,11 +49,11 @@ export const CreateChannelDialog: FC<{
     try {
       setIsSubmitting(true);
 
-      //   await createChannel({
-      //     name,
-      //     userId,
-      //     workspaceId,
-      //   });
+      await createChannel({
+        name,
+        userId,
+        workspaceId,
+      });
 
       router.refresh();
       setIsSubmitting(false);
