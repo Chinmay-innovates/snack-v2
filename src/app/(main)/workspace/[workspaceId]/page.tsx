@@ -1,3 +1,4 @@
+import { EmptyScreen } from '@/components/empty-screen';
 import { InfoSection } from '@/components/info-section';
 import { Sidebar } from '@/components/sidebar';
 import { getUserData } from '@/server/get-user-data';
@@ -19,6 +20,10 @@ const Workspace = async ({ params }: { params: { workspaceId: string } }) => {
 
   const userWorkspaceChannels = await getUserWorkspaceChannels(currentWorkspaceData.id, user.id);
 
+  if (userWorkspaceChannels.length) {
+    return redirect(`/workspace/${params.workspaceId}/channels/${userWorkspaceChannels[0].id}`);
+  }
+
   return (
     <>
       <div className="hidden md:block">
@@ -33,7 +38,11 @@ const Workspace = async ({ params }: { params: { workspaceId: string } }) => {
           userWorkspaceChannels={userWorkspaceChannels}
           currentChannelId={undefined}
         />
-        WORKSPACE SECTION
+        <EmptyScreen
+          userId={user.id}
+          workspaceId={currentWorkspaceData.id}
+          workspaceName={currentWorkspaceData.name}
+        />
       </div>
       <div className="md:hidden block min-h-screen">Mobile</div>
     </>

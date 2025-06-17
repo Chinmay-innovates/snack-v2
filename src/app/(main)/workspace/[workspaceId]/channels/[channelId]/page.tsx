@@ -42,7 +42,7 @@ const Channel = async ({
         currentChannelId={params.channelId}
       />
       <div className="p-2">
-        <Typography text="Channel" />
+        <Typography text="Channel" variant="h3" />
       </div>
     </div>
   );
