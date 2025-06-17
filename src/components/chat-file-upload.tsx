@@ -81,7 +81,7 @@ export const ChatFileUpload = ({
     let messageInsertError;
 
     if (recipientId) {
-      const { data: diretMessageData, error: dmError } = await supabase
+      const { data: direct_messages, error: dmError } = await supabase
         .from('direct_messages')
         .insert({
           file_url: data.path,
@@ -92,7 +92,7 @@ export const ChatFileUpload = ({
 
       messageInsertError = dmError;
     } else {
-      const { data: channelMessageData, error: cmError } = await supabase.from('messages').insert({
+      const { data: channelMessages, error: cmError } = await supabase.from('messages').insert({
         file_url: data.path,
         user_id: userData.id,
         channel_id: channel?.id,
