@@ -13,6 +13,7 @@ import { ImageUpload } from '@/components/image-upload';
 import { useCreateWorkspaceValues } from '@/hooks/create-workspace-values';
 import { slugify } from '@/lib/utils';
 import { createWorkspace } from '@/server/create-workspace';
+import { z } from 'zod';
 
 const CreateWorkspace = () => {
   const { currStep } = useCreateWorkspaceValues();

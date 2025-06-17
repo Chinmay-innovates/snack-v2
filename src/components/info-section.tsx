@@ -9,6 +9,7 @@ import { useColorPrefrences } from '@/providers/color-preferences';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { User, Workspace } from '@/types/app';
 import { Typography } from './ui/typography';
+import { CreateChannelDialog } from './create-channel-dialog';
 export const InfoSection: FC<{
   userData: User;
   currentWorkspaceData: Workspace;
@@ -26,11 +27,11 @@ export const InfoSection: FC<{
     backgroundColor = 'bg-blue-900';
   }
 
-  let secondayBg = 'bg-primary-dark';
+  let secondayBg = 'hover:bg-primary-dark';
   if (color === 'green') {
-    secondayBg = 'bg-green-700';
+    secondayBg = 'hover:bg-green-700';
   } else if (color === 'blue') {
-    secondayBg = 'bg-blue-700';
+    secondayBg = 'hover:bg-blue-700';
   }
 
   const navigateToChannel = (channelId: string) => {
@@ -62,7 +63,7 @@ export const InfoSection: FC<{
                 {isChannelCollapsed ? <FaArrowDown /> : <FaArrowUp />}
                 <Typography variant="p" text="Channels" className="font-bold" />
               </CollapsibleTrigger>
-              <div className={cn('cursor-pointer p-2 rounded-full', `hover:${secondayBg}`)}>
+              <div className={cn('cursor-pointer p-2 rounded-full', secondayBg)}>
                 <FaPlus onClick={() => setDialogOpen(true)} />
               </div>
             </div>
@@ -76,7 +77,7 @@ export const InfoSection: FC<{
                     text={`# ${channel.name}`}
                     className={cn(
                       'px-2 py-1 rounded-sm cursor-pointer',
-                      `hover:${secondayBg}`,
+                      secondayBg,
                       activeChannel && secondayBg,
                     )}
                     onClick={() => navigateToChannel(channel.id)}
@@ -97,7 +98,7 @@ export const InfoSection: FC<{
                 {isDirectMessageCollapsed ? <FaArrowDown /> : <FaArrowUp />}
                 <Typography variant="p" text="Direct messages" className="font-bold" />
               </CollapsibleTrigger>
-              <div className={cn('cursor-pointer p-2 rounded-full', `hover:${secondayBg}`)}>
+              <div className={cn('cursor-pointer p-2 rounded-full', secondayBg)}>
                 <FaPlus />
               </div>
             </div>
@@ -108,7 +109,7 @@ export const InfoSection: FC<{
                     key={member.id}
                     variant="p"
                     text={member.name || member.email}
-                    className={cn('px-2 py-1 rounded-sm cursor-pointer', `hover:${secondayBg}`)}
+                    className={cn('px-2 py-1 rounded-sm cursor-pointer', secondayBg)}
                     onClick={() => navigateToDirectMessage(member.id)}
                   />
                 );
@@ -117,6 +118,12 @@ export const InfoSection: FC<{
           </Collapsible>
         </div>
       </div>
+      <CreateChannelDialog
+        setDialogOpen={setDialogOpen}
+        dialogOpen={dialogOpen}
+        workspaceId={currentWorkspaceData.id}
+        userId={userData.id}
+      />
     </div>
   );
 };

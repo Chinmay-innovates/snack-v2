@@ -6,7 +6,7 @@ import { MainContent } from '@/components/main-layout';
 
 const MainLayout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
       <ColorPrefrencesProvider>
         <MainContent>{children}</MainContent>
       </ColorPrefrencesProvider>
