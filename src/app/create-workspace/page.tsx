@@ -12,7 +12,6 @@ import { ImageUpload } from '@/components/image-upload';
 
 import { useCreateWorkspaceValues } from '@/hooks/create-workspace-values';
 import { slugify } from '@/lib/utils';
-import { MdWorkspacePremium } from 'react-icons/md';
 import { createWorkspace } from '@/server/create-workspace';
 
 const CreateWorkspace = () => {
