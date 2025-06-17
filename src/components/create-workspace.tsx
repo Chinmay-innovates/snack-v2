@@ -38,9 +38,18 @@ export const CreateWorkspace = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formSchema = z.object({
-    name: z.string().min(2, {
-      message: 'Workspace name should be at least 2 characters long',
-    }),
+    name: z
+      .string()
+      .nonempty({
+        message: 'Workspace name is required',
+      })
+      .min(3, {
+        message: 'Workspace name is too short. Must be at least 3 characters.',
+      })
+      .trim()
+      .refine((val) => val.trim().replace(/\s/g, '').length >= 3, {
+        message: 'Workspace name is too short. Must be at least 3 characters.',
+      }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({

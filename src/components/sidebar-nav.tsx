@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Copy } from 'lucide-react';
 import { toast } from 'sonner';
-import { useColorPrefrences } from '@/providers/create-context';
+import { useColorPrefrences } from '@/providers/color-preferences';
 import { CreateWorkspace } from './create-workspace';
 import { ProgressBar } from './progress-bar';
 
@@ -35,7 +35,7 @@ export const SidebarNav = ({ currentWorkspaceData, userWorkspacesData }: Props) 
   const switchWorkspace = (id: string) => {
     setSwitchingWorkspace(true);
     router.push(`/workspace/${id}`);
-    setSwitchingWorkspace(true);
+    setSwitchingWorkspace(false);
   };
 
   const copyInviteLink = (inviteCode: string) => {
@@ -70,7 +70,7 @@ export const SidebarNav = ({ currentWorkspaceData, userWorkspacesData }: Props) 
                   </AvatarFallback>
                 </Avatar>
               </PopoverTrigger>
-              <PopoverContent className="p-0" side="bottom">
+              <PopoverContent className="p-0 w-[352px]" side="bottom">
                 <Card className="w-[350px] border-0">
                   <CardContent className="flex p-0 flex-col">
                     {switchingWorkspace ? (
@@ -80,13 +80,14 @@ export const SidebarNav = ({ currentWorkspaceData, userWorkspacesData }: Props) 
                     ) : (
                       userWorkspacesData.map((workspace) => {
                         const isActive = workspace.id === currentWorkspaceData.id;
-
+                        const isFirst = workspace.id === userWorkspacesData[0].id;
                         return (
                           <div
                             key={workspace.id}
                             className={cn(
                               isActive && `${backgroundColor} text-white`,
                               'cursor-pointer px-2 py-1 flex gap-2',
+                              isActive && isFirst && 'rounded-t-md',
                             )}
                             onClick={() => !isActive && switchWorkspace(workspace.id)}
                           >
