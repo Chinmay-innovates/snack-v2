@@ -11,7 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Copy } from 'lucide-react';
-import { toast } from 'sonner';
+import { showToast } from '@/lib/toast';
 import { useColorPrefrences } from '@/providers/color-preferences';
 import { CreateWorkspace } from './create-workspace';
 import { ProgressBar } from './progress-bar';
@@ -42,14 +42,11 @@ export const SidebarNav = ({ currentWorkspaceData, userWorkspacesData }: Props) 
     const currentDomain = window.location.origin;
 
     navigator.clipboard.writeText(`${currentDomain}/create-workspace/${inviteCode}`);
-    toast('Invite link copied', {
+
+    showToast({
+      message: 'Invite link copied',
       description: 'Share the link with your team.',
       icon: '🚀',
-      duration: 5000,
-      style: {
-        background: '#1a1a1a',
-        color: '#ffffff',
-      },
     });
   };
   return (

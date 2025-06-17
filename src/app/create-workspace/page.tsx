@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +12,7 @@ import { ImageUpload } from '@/components/image-upload';
 import { useCreateWorkspaceValues } from '@/hooks/create-workspace-values';
 import { slugify } from '@/lib/utils';
 import { createWorkspace } from '@/server/create-workspace';
-import { z } from 'zod';
+import { showToast } from '@/lib/toast';
 
 const CreateWorkspace = () => {
   const { currStep } = useCreateWorkspaceValues();
@@ -95,23 +94,17 @@ const Step2 = () => {
     setIsSubmitting(false);
     if (error?.error) {
       console.log(error);
-      return toast.error("Couldn't create workspace. Please try again.");
+      return showToast({
+        message: "Couldn't create workspace. Please try again.",
+        description: 'Something went wrong. Give it another shot.',
+        type: 'error',
+      });
     }
 
-    toast('Workspace ready', {
+    showToast({
+      message: 'Workspace ready',
       description: 'All set up and synced.',
       icon: '✨',
-      duration: 5000,
-      style: {
-        background: '#1a1a1a',
-        color: '#ffffff',
-      },
-      action: {
-        label: 'Go',
-        onClick: () => {
-          router.push(`/`);
-        },
-      },
     });
 
     router.push('/');
