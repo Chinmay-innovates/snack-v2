@@ -41,7 +41,7 @@ export const TextEditor = ({
     extensions: [
       StarterKit,
       PlaceHolder.configure({
-        placeholder: `Message #${type === 'Channel' ? channel?.name : 'username'}`,
+        placeholder: `Message #${type === 'Channel' ? channel?.name : userData.name}`,
       }),
     ],
     autofocus: true,

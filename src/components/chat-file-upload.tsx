@@ -110,9 +110,9 @@ export const ChatFileUpload = ({
     setIsUploading(false);
     toggleFileUploadModal();
     showToast({
-      message: 'File uploaded successfully',
+      message: `${file.type.startsWith('image/') ? 'Media' : 'PDF'} uploaded successfully`,
       description: 'Upload complete. You’re all set.',
-      icon: '✨',
+      icon: `${file.type.startsWith('image/') ? '📸' : '🗐'}`,
     });
     form.reset();
   }
