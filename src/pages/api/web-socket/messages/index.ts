@@ -1,8 +1,11 @@
+import { NextApiRequest } from 'next';
+
 import { getUserDataPages } from '@/server/get-user-data';
 import { supabaseServerClientPages } from '@/supabase/supabase-server-pages';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { SocketIOApiResponse } from '@/types/app';
+import { getChannelMessageEvent } from '@/lib/utils';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: SocketIOApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -54,6 +57,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log('MESSAGE WS ERROR', messageError);
       return res.status(500).json({ error: 'Internal server error' });
     }
+
+    // Emit message to the channel
+    const event = getChannelMessageEvent(channelId);
+    res.socket.server.io.emit(event, data);
 
     return res.status(201).json({ message: 'Message created', data });
   } catch (error) {

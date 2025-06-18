@@ -13,3 +13,39 @@ export function slugify(text: string): string {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 }
+
+export function getChannelMessageEvent(channelId: string | string[]) {
+  return `channel:${channelId}:message`;
+}
+export function getChannelMessageUpdateEvent(channelId: string) {
+  return `channel:${channelId}:message:update`;
+}
+
+export function format(date: Date, formatStr: string): string {
+  const pad = (n: number): string => n.toString().padStart(2, '0');
+
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  const replacements: Record<string, string> = {
+    dd: date.getDate().toString(),
+    MM: months[date.getMonth()],
+    yyyy: date.getFullYear().toString(),
+    HH: pad(date.getHours()),
+    mm: pad(date.getMinutes()),
+  };
+
+  return formatStr.replace(/dd|MM|yyyy|HH|mm/g, (token) => replacements[token]);
+}
