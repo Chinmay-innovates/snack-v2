@@ -13,6 +13,11 @@ export const ProgressBar = () => {
 
     return () => clearInterval(interval);
   }, []);
-
-  return <Progress className="bg-green-900" value={progress} max={100} />;
+  return (
+    <Progress
+      className="bg-gradient-to-r from-cyan-400 to-purple-500 h-full rounded-full animate-loading-bar"
+      value={progress}
+      max={100}
+    />
+  );
 };

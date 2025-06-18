@@ -10,6 +10,78 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        'dot-bounce': {
+          '0%, 80%, 100%': { transform: 'scale(0)', opacity: '0.3' },
+          '40%': { transform: 'scale(1)', opacity: '1' },
+        },
+        'quantum-orbit': {
+          '0%': {
+            transform: 'rotate(0deg) translateX(25px) rotate(0deg)',
+          },
+          '100%': {
+            transform: 'rotate(360deg) translateX(25px) rotate(-360deg)',
+          },
+        },
+        'quantum-core': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.2)', opacity: '0.8' },
+        },
+        'plasma-pulse': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.8' },
+          '50%': { transform: 'scale(1.1)', opacity: '0.4' },
+        },
+        'neural-pulse': {
+          '0%, 100%': { strokeDasharray: '0, 100' },
+          '50%': { strokeDasharray: '50, 100' },
+        },
+        'neural-node': {
+          '0%, 100%': { transform: 'translate(-50%, -50%) scale(1)' },
+          '50%': { transform: 'translate(-50%, -50%) scale(1.3)' },
+        },
+        'vortex-spin': {
+          '0%': { transform: 'rotate(0deg) translateX(var(--radius)) rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg) translateX(var(--radius)) rotate(-360deg)' },
+        },
+        'rainbow-cascade': {
+          '0%, 100%': { height: '8px' },
+          '50%': { height: '40px' },
+        },
+        'holographic-rotate': {
+          '0%': { transform: 'rotateX(0deg) rotateY(0deg)' },
+          '100%': { transform: 'rotateX(360deg) rotateY(360deg)' },
+        },
+        'gradient-x': {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+        blob: {
+          '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+        },
+        'loading-bar': {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
+        },
+      },
+      animation: {
+        'dot-bounce': 'dot-bounce 1.2s infinite ease-in-out',
+        'quantum-orbit': 'quantum-orbit 3s infinite linear',
+        'quantum-core': 'quantum-core 2s infinite ease-in-out',
+        'plasma-pulse': 'plasma-pulse 2s infinite ease-in-out',
+        'neural-pulse': 'neural-pulse 2s infinite ease-in-out',
+        'neural-node': 'neural-node 2s infinite ease-in-out',
+        'vortex-spin': 'vortex-spin 2s infinite linear',
+        'rainbow-cascade': 'rainbow-cascade 1.2s infinite ease-in-out',
+        'holographic-rotate': 'holographic-rotate 4s infinite linear',
+        'gradient-x': 'gradient-x 3s ease infinite',
+        blob: 'blob 7s infinite',
+        'loading-bar': 'loading-bar 3s infinite ease-in-out',
+      },
+      spacing: {
+        radius: 'var(--radius)', // for `vortex-spin`
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
