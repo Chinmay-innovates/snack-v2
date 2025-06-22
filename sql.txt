@@ -108,7 +108,7 @@ $$ language plpgsql;
 
 
 
-Add member to workspace
+ADD MEMBER TO WORKSPACE
 create or replace function add_member_to_workspace(user_id text, workspace_id uuid) returns void as $$
 begin
   update workspaces set members = members || array[user_id]
@@ -119,3 +119,11 @@ $$ language plpgsql;
 create policy "SuperAdminCanUpdate" on "public"."workspaces" as permissive
 for update
 to public using ("super_admin" = auth.uid());
+
+UPDATE CHANNEL REGULATORS
+create or replace function update_channel_regulators (new_regulator text, channel_id uuid) returns void as $$
+BEGIN
+  update channels set regulators = regulators || array[new_regulator]
+  where id = channel_id;
+END;
+$$ language plpgsql;

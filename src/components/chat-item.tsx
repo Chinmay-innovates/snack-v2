@@ -1,20 +1,20 @@
-'use client';
+import { FC, useEffect, useState } from 'react';
+
 import { Channel, User } from '@/types/app';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Typography } from './ui/typography';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Typography } from '@/components/ui/typography';
 import { MdOutlineAdminPanelSettings, MdOutlineAssistantPhoto } from 'react-icons/md';
+import { useChatFile } from '@/hooks/use-chat-file';
 import Link from 'next/link';
 import Image from 'next/image';
-import { z } from 'zod';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useChatFile } from '@/hooks/use-chat-file';
 import { Form, FormControl, FormField, FormItem } from './ui/form';
 import { cn } from '@/lib/utils';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit, Trash } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -43,7 +43,7 @@ const formSchema = z.object({
   content: z.string().min(2),
 });
 
-export const ChatItem = ({
+export const ChatItem: FC<Props> = ({
   id,
   content,
   user,
@@ -55,7 +55,7 @@ export const ChatItem = ({
   socketURL,
   socketQuery,
   channel,
-}: Props) => {
+}) => {
   const { publicUrl, fileType } = useChatFile(fileUrl!);
   const [isEditing, setIsEditing] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -78,9 +78,7 @@ export const ChatItem = ({
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const onSubmit = async ({ content }: z.infer<typeof formSchema>) => {
@@ -106,6 +104,7 @@ export const ChatItem = ({
   const isPdf = fileType === 'pdf' && fileUrl;
   const isImage = fileType === 'image' && fileUrl;
   const isLoading = form.formState.isSubmitting;
+
   const FilePreview = () => (
     <>
       {isImage && (
@@ -173,7 +172,7 @@ export const ChatItem = ({
   const DeleteDialog = () => (
     <Dialog onOpenChange={() => setOpenDeleteDialog(!openDeleteDialog)} open={openDeleteDialog}>
       <DialogTrigger>
-        <Trash2 size={20} />
+        <Trash size={20} />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -264,6 +263,7 @@ export const ChatItem = ({
           {!fileUrl && <EditableContent />}
         </div>
       </div>
+
       {canDeleteMessage && (
         <div className="hidden absolute group-hover:flex flex-row gap-2 border bg-white dark:bg-black dark:text-white text-black rounded-md p-2 top-0 -translate-y-1/3 right-0">
           <DeleteDialog />

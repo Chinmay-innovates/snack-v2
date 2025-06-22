@@ -6,6 +6,7 @@ import { InfoSection } from '@/components/info-section';
 import { Sidebar } from '@/components/sidebar';
 import { Channel, MessageType, ParamKey, User, Workspace } from '@/types/app';
 import { ChatMessages } from './chat-messages';
+import { SearchBar } from './search-bar';
 
 type Props = {
   type: MessageType;
@@ -53,11 +54,17 @@ export const ChatGroup = ({
           userWorkspaceChannels={userWorkspaceChannels as Channel[]}
           currentChannelId={type === 'Channel' ? channel?.id : undefined}
         />
+        <SearchBar
+          currentWorkspaceData={currentWorkspaceData}
+          channel={channel}
+          loggedInUserId={user.id}
+        />
         <div className="p-4 relative w-full overflow-hidden">
           <ChatHeader title={headerTitle} chatId={chatId} user={user} />
           <div className="mt-10">
             <ChatMessages
               user={user}
+              channel={channel}
               name={channel?.name ?? user.name}
               workspace={currentWorkspaceData}
               apiURL={apiURL}

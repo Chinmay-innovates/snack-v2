@@ -66,9 +66,9 @@ export default async function handler(req: NextApiRequest, res: SocketIOApiRespo
       return res.status(404).json({ error: 'Message not found' });
     }
 
-    // res.socket.server.io.emit(`channel:${channelId}:message:update`, updatedMessage);
     const event = getChannelMessageUpdateEvent(channelId);
     res.socket.server.io.emit(event, updatedMessage);
+
     return res.status(200).json({ message: updatedMessage });
   } catch (error) {
     console.log('MESSAGE ID ERROR: ', error);

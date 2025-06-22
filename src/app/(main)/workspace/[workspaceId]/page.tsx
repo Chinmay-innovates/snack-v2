@@ -20,9 +20,9 @@ const Workspace = async ({ params }: { params: { workspaceId: string } }) => {
 
   const userWorkspaceChannels = await getUserWorkspaceChannels(currentWorkspaceData.id, user.id);
 
-  if (userWorkspaceChannels.length) {
-    return redirect(`/workspace/${params.workspaceId}/channels/${userWorkspaceChannels[0].id}`);
-  }
+  // if (userWorkspaceChannels.length) {
+  //   return redirect(`/workspace/${params.workspaceId}/channels/${userWorkspaceChannels[0].id}`);
+  // }
 
   return (
     <>

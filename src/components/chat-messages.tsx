@@ -3,6 +3,7 @@ import { Channel, MessageType, ParamKey, User, Workspace } from '@/types/app';
 import { AnimatedDotLoader } from './animated-dot-loader';
 import { ChatItem } from './chat-item';
 import { format } from '@/lib/utils';
+import { useChatSocketConnection } from '@/hooks/use-chat-socket-connection';
 
 const DATE_FORMAT = 'dd MM yyyy, HH:mm';
 type Props = {
@@ -32,13 +33,21 @@ export const ChatMessages = ({
   workspace,
   channel,
 }: Props) => {
-  const queryKey = type === 'Channel' ? `channel:${chatId}` : `direct_message:${user.id}`;
+  const queryKey = type === 'Channel' ? `channel:${chatId}` : `direct_message:${chatId}`;
   const { data, status, fetchNextPage, hasNextPage, isFetchingNextPage } = useChatFetcher({
     apiURL,
     paramKey,
     paramValue,
     pageSize: 10,
     queryKey,
+  });
+
+  useChatSocketConnection({
+    queryKey,
+    addKey: type === 'Channel' ? `${queryKey}:channel-messages` : `direct_messages:post`,
+    updateKey:
+      type === 'Channel' ? `${queryKey}:channel-messages:update` : `direct_messages:update`,
+    paramValue,
   });
 
   if (status === 'pending') return <AnimatedDotLoader />;
