@@ -1,34 +1,37 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   chatRef: React.RefObject<HTMLDivElement>;
   scrollRef: React.RefObject<HTMLDivElement>;
   count: number;
 };
+
 export const useChatScrollHandler = ({ chatRef, scrollRef, count }: Props) => {
-  const [hasInitialized, setHasInitialized] = React.useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   useEffect(() => {
-    const topDiv = chatRef.current;
-    const bottomDiv = scrollRef.current;
+    const chatEl = chatRef.current;
+    const bottomEl = scrollRef.current;
 
-    const shouldAutoScroll = () => {
-      if (!hasInitialized && bottomDiv) {
-        setHasInitialized(true);
-        setHasInitialized(true);
-      }
+    if (!chatEl || !bottomEl) return;
 
-      if (!topDiv) return false;
-
-      const distanceFromBottom = topDiv.scrollHeight - topDiv.scrollTop - topDiv.clientHeight;
-
+    const isNearBottom = () => {
+      const distanceFromBottom = chatEl.scrollHeight - chatEl.scrollTop - chatEl.clientHeight;
       return distanceFromBottom <= 100;
     };
 
-    if (shouldAutoScroll()) {
-      setTimeout(() => {
-        scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+    // Always scroll to bottom on first load
+    if (!hasInitialized) {
+      setHasInitialized(true);
+      bottomEl.scrollIntoView({ behavior: 'auto' });
+      return;
     }
-  }, [scrollRef, chatRef, hasInitialized, count]);
+
+    // Scroll if user is near bottom
+    if (isNearBottom()) {
+      setTimeout(() => {
+        bottomEl.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
+  }, [count, chatRef, scrollRef, hasInitialized]);
 };

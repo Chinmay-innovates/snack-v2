@@ -60,7 +60,7 @@ export const ChatMessages = ({
   useChatScrollHandler({
     chatRef,
     scrollRef,
-    count: data?.pages?.[0].data?.length ?? 0,
+    count: data?.pages?.reduce((acc, page) => acc + page.data.length, 0) ?? 0,
   });
 
   if (status === 'pending') return <AnimatedDotLoader />;
