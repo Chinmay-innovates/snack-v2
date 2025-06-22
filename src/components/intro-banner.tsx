@@ -51,8 +51,7 @@ export const IntroBanner = ({ createdAt, name = '', type }: Props) => {
               )}
               {type !== 'Channel' && (
                 <>
-                  <div className="size-1.5 bg-gray-500 rounded-full" />
-                  <span>Direct message</span>
+                  <span>Connected since {formattedDate}</span>
                 </>
               )}
             </div>

@@ -41,13 +41,16 @@ export const ChatMessages = ({
   const scrollRef = useRef<ElementRef<'div'>>(null);
 
   const queryKey = type === 'Channel' ? `channel:${chatId}` : `direct_message:${chatId}`;
+
   const { data, status, fetchNextPage, hasNextPage, isFetchingNextPage } = useChatFetcher({
     apiURL,
     paramKey,
     paramValue,
-    pageSize: 10,
+    pageSize: 20,
     queryKey,
   });
+
+  const allMessages = data?.pages.flatMap((page) => page.data) ?? [];
 
   useChatSocketConnection({
     queryKey,
@@ -60,46 +63,57 @@ export const ChatMessages = ({
   useChatScrollHandler({
     chatRef,
     scrollRef,
-    count: data?.pages?.[0].data?.length ?? 0,
+    count: allMessages.length,
+    channelId: channel?.id || chatId,
   });
 
   if (status === 'pending') return <AnimatedDotLoader />;
   if (status === 'error') return <span>Something went wrong</span>;
 
-  const renderMessages = () =>
-    data.pages.map((page) =>
-      page.data.map((message) => (
-        <ChatItem
-          id={message.id}
-          key={message.id}
-          content={message.content}
-          fileUrl={message.file_url}
-          currentUser={user}
-          timestamp={format(new Date(message.created_at), DATE_FORMAT)}
-          isUpdated={message.updated_at !== message.created_at}
-          deleted={message.is_deleted}
-          user={message.user}
-          socketURL={socketURL}
-          socketQuery={socketQuery}
-          channel={channel}
-        />
-      )),
-    );
   return (
-    <div ref={chatRef} className="flex-1 flex flex-col py-4 overflow-y-auto">
-      {!hasNextPage && <IntroBanner type={type} name={name} createdAt={workspace.created_at} />}
+    <div ref={chatRef}>
+      {/* Load Previous */}
       {hasNextPage && (
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center">
           {isFetchingNextPage ? (
             <AnimatedDotLoader />
           ) : (
-            <Button variant={'link'} onClick={() => fetchNextPage()}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => fetchNextPage()}
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
               Load previous messages
             </Button>
           )}
         </div>
       )}
-      <div className="flex flex-col-reverse mt-auto">{renderMessages()}</div>
+
+      {/* Intro Banner */}
+      {!hasNextPage && <IntroBanner type={type} name={name} createdAt={workspace.created_at} />}
+
+      {/* Message List */}
+      <div className="flex flex-col gap-4">
+        {allMessages.map((message) => (
+          <ChatItem
+            key={message.id}
+            id={message.id}
+            content={message.content}
+            fileUrl={message.file_url}
+            currentUser={user}
+            timestamp={format(new Date(message.created_at), DATE_FORMAT)}
+            isUpdated={message.updated_at !== message.created_at}
+            deleted={message.is_deleted}
+            user={message.user}
+            socketURL={socketURL}
+            socketQuery={socketQuery}
+            channel={channel}
+          />
+        ))}
+      </div>
+
+      {/* Scroll Target */}
       <div ref={scrollRef} />
     </div>
   );

@@ -49,3 +49,11 @@ export function format(date: Date, formatStr: string): string {
 
   return formatStr.replace(/dd|MM|yyyy|HH|mm/g, (token) => replacements[token]);
 }
+
+export function getPagination(page: number, size: number) {
+  const limit = size ? +size : 10;
+  const from = page ? page * limit : 0;
+  const to = page ? from + limit - 1 : limit - 1;
+
+  return { from, to };
+}

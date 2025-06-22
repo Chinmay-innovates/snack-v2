@@ -7,32 +7,34 @@ export async function GET(req: Request) {
   try {
     const supabase = await supabaseServerClient();
     const user = await getUserData();
-    const { searchParams } = new URL(req.url);
-    const channelId = searchParams.get('channelId');
-
     if (!user) {
-      return new Response('Unauthorized', { status: 401 });
+      return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    if (!channelId) {
-      return new Response('Bad Request', { status: 400 });
+    const { searchParams } = new URL(req.url);
+    const userId = user.id;
+    const recipientId = searchParams.get('recipientId');
+
+    if (!recipientId) {
+      return new NextResponse('Bad Request', { status: 400 });
     }
 
     const page = Number(searchParams.get('page'));
     const size = Number(searchParams.get('size'));
-
     const { from, to } = getPagination(page, size);
 
     const { data, error } = await supabase
-      .from('messages')
-      .select('*, user: user_id (*)')
-      .eq('channel_id', channelId)
+      .from('direct_messages')
+      .select(`*, user_one: user_one (*), user_two: user_two (*), user: user (*)`)
+      .or(
+        `and(user_one.eq.${userId},user_two.eq.${recipientId}),and(user_one.eq.${recipientId},user_two.eq.${userId})`,
+      )
       .range(from, to)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: true });
 
     if (error) {
-      console.log('GET MESSAGES ERROR: ', error);
-      return new Response('Bad Request', { status: 400 });
+      console.error('Error fetching direct messages', error);
+      return new NextResponse('Internal Server Error', { status: 500 });
     }
 
     return NextResponse.json({ data });
