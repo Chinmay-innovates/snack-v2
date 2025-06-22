@@ -1,3 +1,5 @@
+import { User } from "./app"
+
 export type Json =
   | string
   | number
@@ -155,7 +157,7 @@ export type Database = {
           id: string
           image_url: string | null
           invite_code: string
-          members: string[] | null
+          members: User[] | null
           name: string
           regulators: string[] | null
           slug: string

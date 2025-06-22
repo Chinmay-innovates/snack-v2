@@ -15,10 +15,10 @@ export function slugify(text: string): string {
 }
 
 export function getChannelMessageEvent(channelId: string | string[]) {
-  return `channel:${channelId}:message`;
+  return `channel:${channelId}:channel-messages`;
 }
 export function getChannelMessageUpdateEvent(channelId: string) {
-  return `channel:${channelId}:message:update`;
+  return `channel:${channelId}:channel-messages:update`;
 }
 
 export function format(date: Date, formatStr: string): string {

@@ -95,3 +95,17 @@ const updateWorkspaceChannel = async (channelId: string, workspaceId: string) =>
 
   return [updatedWorkspace, updateError];
 };
+
+export const updateChannelRegulators = async (userId: string, channelId: string) => {
+  const supabase = await supabaseServerClient();
+
+  const { data: updatedChannel, error: updateError } = await supabase.rpc(
+    'update_channel_regulators',
+    {
+      new_regulator: userId,
+      channel_id: channelId,
+    },
+  );
+
+  return [updatedChannel, updateError];
+};

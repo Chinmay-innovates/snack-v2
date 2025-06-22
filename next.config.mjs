@@ -24,6 +24,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'kmdwioqycpnsnofbzmow.supabase.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
     ],
   },
 };
