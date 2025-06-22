@@ -4,6 +4,10 @@ import { AnimatedDotLoader } from './animated-dot-loader';
 import { ChatItem } from './chat-item';
 import { format } from '@/lib/utils';
 import { useChatSocketConnection } from '@/hooks/use-chat-socket-connection';
+import { IntroBanner } from './intro-banner';
+import { Button } from './ui/button';
+import { ElementRef, useRef } from 'react';
+import { useChatScrollHandler } from '@/hooks/use-chat-scroll-handler';
 
 const DATE_FORMAT = 'dd MM yyyy, HH:mm';
 type Props = {
@@ -33,6 +37,9 @@ export const ChatMessages = ({
   workspace,
   channel,
 }: Props) => {
+  const chatRef = useRef<ElementRef<'div'>>(null);
+  const scrollRef = useRef<ElementRef<'div'>>(null);
+
   const queryKey = type === 'Channel' ? `channel:${chatId}` : `direct_message:${chatId}`;
   const { data, status, fetchNextPage, hasNextPage, isFetchingNextPage } = useChatFetcher({
     apiURL,
@@ -48,6 +55,12 @@ export const ChatMessages = ({
     updateKey:
       type === 'Channel' ? `${queryKey}:channel-messages:update` : `direct_messages:update`,
     paramValue,
+  });
+
+  useChatScrollHandler({
+    chatRef,
+    scrollRef,
+    count: data?.pages?.[0].data?.length ?? 0,
   });
 
   if (status === 'pending') return <AnimatedDotLoader />;
@@ -73,8 +86,21 @@ export const ChatMessages = ({
       )),
     );
   return (
-    <div className="flex-1 flex flex-col py-4 overflow-y-auto">
+    <div ref={chatRef} className="flex-1 flex flex-col py-4 overflow-y-auto">
+      {!hasNextPage && <IntroBanner type={type} name={name} createdAt={workspace.created_at} />}
+      {hasNextPage && (
+        <div className="flex justify-center mb-4">
+          {isFetchingNextPage ? (
+            <AnimatedDotLoader />
+          ) : (
+            <Button variant={'link'} onClick={() => fetchNextPage()}>
+              Load previous messages
+            </Button>
+          )}
+        </div>
+      )}
       <div className="flex flex-col-reverse mt-auto">{renderMessages()}</div>
+      <div ref={scrollRef} />
     </div>
   );
 };

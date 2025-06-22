@@ -243,7 +243,19 @@ export const ChatItem: FC<Props> = ({
               className="object-cover w-full h-full"
             />
             <AvatarFallback className="bg-neutral-700">
-              <Typography variant="p" text={user.name?.slice(0, 2) ?? 'UN'} />
+              <Typography
+                variant="p"
+                text={
+                  user.name
+                    ? user.name
+                        .split(' ')
+                        .map((word) => word[0])
+                        .slice(0, 2)
+                        .join('')
+                        .toUpperCase()
+                    : 'UN'
+                }
+              />
             </AvatarFallback>
           </Avatar>
         </div>
