@@ -4,9 +4,13 @@ import { Socket, Server as NetServer } from 'net';
 import { Server as SocketIOServer } from 'socket.io';
 
 export type User = Database['public']['Tables']['users']['Row'];
-export type Workspace = Database['public']['Tables']['workspaces']['Row'];
+type __Workspace = Database['public']['Tables']['workspaces']['Row'];
 export type Channel = Database['public']['Tables']['channels']['Row'];
 export type Message = Database['public']['Tables']['messages']['Row'];
+export type DirectMessage = Database['public']['Tables']['direct_messages']['Row'];
+export type Workspace = Omit<__Workspace, 'members'> & {
+  members: User[] | null;
+};
 export type SocketIOApiResponse = NextApiResponse & {
   socket: Socket & {
     server: NetServer & {

@@ -109,7 +109,7 @@ export const InfoSection: FC<{
               </div>
             </div>
             <CollapsibleContent>
-              {/* {currentWorkspaceData?.members?.map((member) => {
+              {currentWorkspaceData?.members?.map((member) => {
                 return (
                   <Typography
                     key={member.id}
@@ -119,7 +119,7 @@ export const InfoSection: FC<{
                     onClick={() => navigateToDirectMessage(member.id)}
                   />
                 );
-              })} */}
+              })}
             </CollapsibleContent>
           </Collapsible>
         </div>

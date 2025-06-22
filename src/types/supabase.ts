@@ -1,5 +1,3 @@
-import { User } from "./app"
-
 export type Json =
   | string
   | number
@@ -49,6 +47,64 @@ export type Database = {
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      direct_messages: {
+        Row: {
+          content: string | null
+          created_at: string
+          file_url: string | null
+          id: number
+          is_deleted: boolean
+          updated_at: string
+          user: string
+          user_one: string
+          user_two: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          file_url?: string | null
+          id?: number
+          is_deleted?: boolean
+          updated_at?: string
+          user: string
+          user_one: string
+          user_two: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          file_url?: string | null
+          id?: number
+          is_deleted?: boolean
+          updated_at?: string
+          user?: string
+          user_one?: string
+          user_two?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "direct_messages_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "direct_messages_user_one_fkey"
+            columns: ["user_one"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "direct_messages_user_two_fkey"
+            columns: ["user_two"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -157,7 +213,7 @@ export type Database = {
           id: string
           image_url: string | null
           invite_code: string
-          members: User[] | null
+          members: string[] | null
           name: string
           regulators: string[] | null
           slug: string
@@ -216,6 +272,10 @@ export type Database = {
       }
       update_channel_members: {
         Args: { new_member: string; channel_id: string }
+        Returns: undefined
+      }
+      update_channel_regulators: {
+        Args: { new_regulator: string; channel_id: string }
         Returns: undefined
       }
       update_user_channels: {
