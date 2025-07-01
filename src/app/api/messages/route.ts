@@ -3,6 +3,7 @@ import { getUserData } from '@/server/get-user-data';
 import { supabaseServerClient } from '@/supabase/supabase-server';
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
 export async function GET(req: Request) {
   try {
     const supabase = await supabaseServerClient();

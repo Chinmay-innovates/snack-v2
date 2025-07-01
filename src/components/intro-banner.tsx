@@ -40,7 +40,7 @@ export const IntroBanner = ({ createdAt, name = '', type }: Props) => {
 
           <div>
             <h2 className="text-2xl font-semibold text-zinc-900 dark:text-white">
-              {type === 'Channel' ? name : `Say hi to ${name}`}
+              {type === 'Channel' ? name : 'Direct Message'}
             </h2>
             <div className="flex items-center gap-2 mt-1 text-sm text-zinc-500 dark:text-zinc-400">
               {type === 'Channel' && formattedDate && (
